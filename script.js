@@ -32,38 +32,40 @@ function initNavigation() {
   const backToTopBtn = document.getElementById('back-to-top');
   const sections = document.querySelectorAll('section[id]');
 
-  // ---- Fungsi buka sidebar di HP ----
+  // Fungsi Membuka Menu Kiri di Mobile
   function openSidebar() {
-    if (!sidebar || !backdrop) return;
-    sidebar.classList.add('open');
-    backdrop.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    if (sidebar && backdrop) {
+      sidebar.classList.remove('-translate-x-full');
+      backdrop.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden', 'lg:overflow-auto');
+    }
   }
 
-  // ---- Fungsi tutup sidebar di HP ----
+  // Fungsi Menutup Menu Kiri di Mobile
   function closeSidebar() {
-    if (!sidebar || !backdrop) return;
-    sidebar.classList.remove('open');
-    backdrop.classList.remove('open');
-    document.body.style.overflow = '';
+    if (sidebar && backdrop) {
+      sidebar.classList.add('-translate-x-full');
+      backdrop.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden', 'lg:overflow-auto');
+    }
   }
 
-  // Tombol hamburger di mobile header → buka sidebar
+  // Tombol Toggle Buka Menu Kiri (Mobile Header)
   if (toggleBtn) {
     toggleBtn.addEventListener('click', openSidebar);
   }
 
-  // Tombol X di dalam sidebar → tutup
+  // Tombol Tutup X di dalam Sidebar (Mobile)
   if (closeBtn) {
     closeBtn.addEventListener('click', closeSidebar);
   }
 
-  // Klik backdrop gelap → tutup sidebar
+  // Klik di Area Luar (Backdrop) untuk Menutup Sidebar
   if (backdrop) {
     backdrop.addEventListener('click', closeSidebar);
   }
 
-  // Klik link menu kiri → tutup sidebar di HP lalu navigasi
+  // Ketika salah satu menu kiri diklik: tutup sidebar di mobile & scroll halus
   sidebarLinks.forEach(link => {
     link.addEventListener('click', () => {
       if (window.innerWidth < 1024) {
@@ -72,38 +74,41 @@ function initNavigation() {
     });
   });
 
-  // Tombol Escape → tutup sidebar
+  // Tutup sidebar saat menekan tombol keyboard Escape
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeSidebar();
+    if (e.key === 'Escape') {
+      closeSidebar();
+    }
   });
 
-  // ---- Scroll: ScrollSpy & Back-to-Top ----
+  // Scroll Event: Scrollspy Active State & Tombol Back-to-Top
   window.addEventListener('scroll', () => {
     const scrollY = window.pageYOffset;
 
-    // Tombol kembali ke atas
+    // Back to top button visibility
     if (backToTopBtn) {
       if (scrollY > 400) {
-        backToTopBtn.style.opacity = '1';
-        backToTopBtn.style.pointerEvents = 'auto';
+        backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+        backToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
       } else {
-        backToTopBtn.style.opacity = '0';
-        backToTopBtn.style.pointerEvents = 'none';
+        backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+        backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
       }
     }
 
-    // ScrollSpy — tandai link aktif sesuai section yang terlihat
-    let currentId = '';
+    // ScrollSpy active link highlighting pada Menu Kiri
+    let currentSectionId = '';
     sections.forEach(section => {
-      const top = section.offsetTop - 150;
-      if (scrollY >= top) {
-        currentId = section.getAttribute('id');
+      const sectionTop = section.offsetTop - 140;
+      const sectionHeight = section.offsetHeight;
+      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+        currentSectionId = section.getAttribute('id');
       }
     });
 
     sidebarLinks.forEach(link => {
-      const href = link.getAttribute('href');
-      if (href === '#' + currentId) {
+      const targetHref = link.getAttribute('href');
+      if (targetHref === `#${currentSectionId}`) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
@@ -111,10 +116,13 @@ function initNavigation() {
     });
   });
 
-  // Klik tombol kembali ke atas
+  // Back to top click
   if (backToTopBtn) {
     backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
   }
 }
