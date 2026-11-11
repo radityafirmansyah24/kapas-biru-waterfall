@@ -317,24 +317,15 @@
               </div>
 
               <!-- Caption Overlay -->
-              <div class="absolute bottom-4 left-4 right-4 bg-slate-900/80 backdrop-blur-md p-4 rounded-xl border border-white/10 text-left">
-                <div class="flex items-center justify-between">
+              <div>
+                <div>
                   <div>
-                    <h4 class="font-bold text-white text-base sm:text-lg flex items-center">
-                      <i class="fa-solid fa-camera mr-2 text-emerald-400"></i> Foto Bersama Anggota Kelompok
-                    </h4>
-                    <p class="text-xs text-slate-300">Dokumentasi kerja tim, observasi materi wisata, dan pembuatan website presentasi.</p>
+
                   </div>
-                  <button type="button" onclick="openPhotoModal(document.getElementById('group-main-img').src, 'Foto Resmi Anggota Kelompok Projek Kapas Biru')" class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-900 text-xs font-bold transition-colors">
-                    <i class="fa-solid fa-expand mr-1.5"></i> Perbesar
-                  </button>
+
                 </div>
               </div>
             </div>
-            
-            <p class="text-xs text-slate-400 mt-2 text-center lg:text-left italic">
-              *Catatan: Foto di atas dapat diganti dengan berkas foto kelompok asli Anda (cukup letakkan foto dengan nama <code>foto-kelompok.jpg</code> di folder project).
-            </p>
           </div>
 
           <!-- Metadata & Keterangan Projek Kelompok -->
@@ -664,39 +655,12 @@
             
             <!-- Video Info & Sound Status -->
             <div class="flex items-center space-x-3">
-              <button 
-                id="video-play-btn" 
-                type="button" 
-                class="w-11 h-11 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 flex items-center justify-center font-bold text-lg shadow-lg transition-transform transform active:scale-95" 
-                title="Putar / Jeda Video" 
-                aria-label="Play or Pause">
-                <i id="play-icon" class="fa-solid fa-pause"></i>
-              </button>
 
-              <button 
-                id="video-sound-btn" 
-                type="button" 
-                class="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold flex items-center space-x-2 transition-all active:scale-95" 
-                title="Nyalakan / Matikan Audio" 
-                aria-label="Toggle Sound">
-                <i id="sound-icon" class="fa-solid fa-volume-xmark text-yellow-400"></i>
-                <span id="sound-label">Aktifkan Suara</span>
-              </button>
             </div>
 
             <!-- Fullscreen & Loop Status -->
             <div class="flex items-center space-x-2 text-xs text-slate-300">
-              <span class="hidden md:inline-flex items-center px-3 py-1.5 rounded-xl bg-black/50 border border-white/10">
-                <i class="fa-solid fa-arrows-rotate text-emerald-400 mr-1.5 animate-spin-slow"></i> Otomatis Memutar & Mengulang
-              </span>
-              <button 
-                id="video-fullscreen-btn" 
-                type="button" 
-                class="w-10 h-10 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-colors" 
-                title="Layar Penuh" 
-                aria-label="Fullscreen">
-                <i class="fa-solid fa-expand"></i>
-              </button>
+
             </div>
 
           </div>
@@ -775,7 +739,6 @@
             </ul>
           </div>
           <div class="pt-4 border-t border-emerald-100 text-xs text-emerald-800 font-medium bg-emerald-50/70 p-3 rounded-xl text-center">
-            *Anak di bawah usia 5 tahun gratis masuk.
           </div>
         </div>
 
