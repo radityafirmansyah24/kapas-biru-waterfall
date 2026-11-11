@@ -64,117 +64,158 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-emerald-500 selection:text-white">
 
-  <!-- ==================== TOP ANNOUNCEMENT BAR ==================== -->
-  <div class="bg-gradient-to-r from-emerald-800 via-teal-800 to-sky-900 text-white text-xs md:text-sm py-2 px-4 text-center font-medium shadow-sm relative z-50">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <div class="hidden md:flex items-center space-x-3">
-        <span><i class="fa-solid fa-location-dot text-emerald-400 mr-1.5"></i> Pronojiwo, Kabupaten Lumajang, Jawa Timur</span>
-        <span class="text-white/40">|</span>
-        <span><i class="fa-regular fa-clock text-sky-300 mr-1.5"></i> Jam Buka: 07.00 - 15.00 WIB</span>
-      </div>
-      <div class="mx-auto md:mx-0 flex items-center space-x-2">
-        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
-          <i class="fa-solid fa-shield-halved mr-1 text-[11px]"></i> Halaman Resmi & Terproteksi
-        </span>
-        <span class="text-emerald-200 text-xs hidden sm:inline">• Projek Presentasi Bu Ratna</span>
-      </div>
-      <div class="hidden lg:flex items-center space-x-3 text-xs">
-        <a href="#buku-tamu" class="hover:text-emerald-300 transition-colors"><i class="fa-solid fa-pen-nib mr-1"></i> Isi Buku Tamu</a>
-      </div>
-    </div>
-  </div>
+  <!-- ==================== BACKDROP OVERLAY UNTUK MOBILE ==================== -->
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-40 hidden transition-opacity duration-300"></div>
 
-  <!-- ==================== NAVBAR TERATUR & RAPI ==================== -->
-  <header id="main-header" class="sticky top-0 z-40 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
-        
-        <!-- Logo Wisata -->
-        <a href="#beranda" class="group flex items-center space-x-3 focus:outline-none">
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-600 to-sky-600 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
-            <i class="fa-solid fa-water text-xl"></i>
+  <!-- ==================== MENU KIRI (SIDEBAR UNTUK LAPTOP & HP) ==================== -->
+  <aside id="left-sidebar" class="fixed top-0 left-0 bottom-0 w-72 h-full z-50 bg-slate-900 border-r border-slate-800 text-white flex flex-col justify-between overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl">
+    
+    <!-- Bagian Atas Sidebar: Logo, Brand & Tombol Close (Mobile) -->
+    <div class="p-5 border-b border-slate-800/80 bg-slate-950/40">
+      <div class="flex items-center justify-between">
+        <!-- Logo Brand -->
+        <a href="#beranda" class="sidebar-link flex items-center space-x-3 group focus:outline-none">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-600 to-sky-600 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
+            <i class="fa-solid fa-water text-lg"></i>
           </div>
           <div>
-            <span class="block text-xl font-bold tracking-tight text-slate-900 group-hover:text-emerald-600 transition-colors font-display">
+            <span class="block text-lg font-bold tracking-tight text-white group-hover:text-emerald-400 transition-colors font-display">
               KAPAS BIRU
             </span>
-            <span class="block text-[11px] font-semibold text-slate-500 tracking-wider uppercase">
-              Coban Pronojiwo • Lumajang
+            <span class="block text-[10px] font-semibold text-slate-400 tracking-wider uppercase">
+              Pronojiwo • Lumajang
             </span>
           </div>
         </a>
 
-        <!-- Desktop Navigation Menu -->
-        <nav class="hidden lg:flex items-center space-x-1">
-          <a href="#beranda" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-emerald-600 hover:bg-emerald-50/70 transition-all">
-            <i class="fa-solid fa-house text-xs mr-1.5 opacity-70"></i>Beranda
-          </a>
-          <a href="#foto-kelompok" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-emerald-600 hover:bg-emerald-50/70 transition-all">
-            <i class="fa-solid fa-users text-xs mr-1.5 opacity-70"></i>Foto Kelompok
-          </a>
-          <a href="#sejarah" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-emerald-600 hover:bg-emerald-50/70 transition-all">
-            <i class="fa-solid fa-landmark text-xs mr-1.5 opacity-70"></i>Sejarah
-          </a>
-          <a href="#video-sinematik" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-emerald-600 hover:bg-emerald-50/70 transition-all">
-            <i class="fa-solid fa-clapperboard text-xs mr-1.5 opacity-70"></i>Video Sinematik
-          </a>
-          <a href="#tarif-fasilitas" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-emerald-600 hover:bg-emerald-50/70 transition-all">
-            <i class="fa-solid fa-ticket text-xs mr-1.5 opacity-70"></i>Tarif & Fasilitas
-          </a>
-          <a href="#dokumentasi" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-emerald-600 hover:bg-emerald-50/70 transition-all">
-            <i class="fa-solid fa-camera text-xs mr-1.5 opacity-70"></i>Dokumentasi
-          </a>
-          <a href="#buku-tamu" class="nav-link px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-emerald-600 hover:bg-emerald-50/70 transition-all">
-            <i class="fa-solid fa-book-open text-xs mr-1.5 opacity-70"></i>Buku Tamu
-          </a>
-        </nav>
+        <!-- Tombol Tutup Sidebar untuk Mobile -->
+        <button id="sidebar-close-btn" type="button" class="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none transition-colors" aria-label="Tutup Menu">
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+      </div>
 
-        <!-- CTA Header Button -->
-        <div class="hidden lg:flex items-center space-x-3">
-          <a href="#tarif-fasilitas" class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-md shadow-emerald-600/25 transition-all transform hover:-translate-y-0.5">
-            <i class="fa-solid fa-compass mr-2"></i> Info Tiket
-          </a>
-        </div>
-
-        <!-- Mobile Menu Toggle Button -->
-        <div class="flex items-center lg:hidden">
-          <button id="mobile-menu-btn" type="button" class="p-2.5 rounded-xl text-slate-700 hover:text-emerald-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-label="Toggle Navigation Menu">
-            <i id="menu-icon" class="fa-solid fa-bars-staggered text-2xl"></i>
-          </button>
-        </div>
+      <!-- Badge Projek Bu Ratna -->
+      <div class="mt-3.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center justify-between">
+        <span class="flex items-center">
+          <i class="fa-solid fa-graduation-cap mr-2 text-emerald-400"></i>
+          Projek Bu Ratna
+        </span>
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
       </div>
     </div>
 
-    <!-- Mobile Navigation Dropdown -->
-    <div id="mobile-menu" class="hidden lg:hidden border-b border-slate-200 bg-white/98 backdrop-blur-xl px-4 pt-3 pb-6 space-y-2 shadow-xl animate-fadeIn">
-      <a href="#beranda" class="mobile-nav-link flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
-        <i class="fa-solid fa-house w-7 text-emerald-600"></i>Beranda
+    <!-- Navigasi Menu Vertikal (Menu Kiri) -->
+    <div class="px-3.5 py-4 flex-1 space-y-1.5">
+      <div class="px-3 pb-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-between">
+        <span>Menu Wisata</span>
+        <i class="fa-solid fa-compass text-emerald-400 text-xs"></i>
+      </div>
+
+      <a href="#beranda" class="sidebar-link flex items-center px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white transition-all group">
+        <i class="fa-solid fa-house w-6 text-slate-400 group-hover:text-emerald-400 transition-colors"></i>
+        <span class="ml-1">Beranda</span>
       </a>
-      <a href="#foto-kelompok" class="mobile-nav-link flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
-        <i class="fa-solid fa-users w-7 text-emerald-600"></i>Foto Kelompok
+
+      <a href="#foto-kelompok" class="sidebar-link flex items-center px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white transition-all group">
+        <i class="fa-solid fa-users w-6 text-slate-400 group-hover:text-emerald-400 transition-colors"></i>
+        <span class="ml-1">Foto Kelompok</span>
       </a>
-      <a href="#sejarah" class="mobile-nav-link flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
-        <i class="fa-solid fa-landmark w-7 text-emerald-600"></i>Sejarah Kapas Biru
+
+      <a href="#sejarah" class="sidebar-link flex items-center px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white transition-all group">
+        <i class="fa-solid fa-landmark w-6 text-slate-400 group-hover:text-emerald-400 transition-colors"></i>
+        <span class="ml-1">Sejarah Kapas Biru</span>
       </a>
-      <a href="#video-sinematik" class="mobile-nav-link flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
-        <i class="fa-solid fa-clapperboard w-7 text-emerald-600"></i>Video Sinematik
+
+      <a href="#video-sinematik" class="sidebar-link flex items-center px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white transition-all group">
+        <i class="fa-solid fa-clapperboard w-6 text-slate-400 group-hover:text-emerald-400 transition-colors"></i>
+        <span class="ml-1">Video Sinematik</span>
       </a>
-      <a href="#tarif-fasilitas" class="mobile-nav-link flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
-        <i class="fa-solid fa-ticket w-7 text-emerald-600"></i>Tarif & Fasilitas
+
+      <a href="#tarif-fasilitas" class="sidebar-link flex items-center px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white transition-all group">
+        <i class="fa-solid fa-ticket w-6 text-slate-400 group-hover:text-emerald-400 transition-colors"></i>
+        <span class="ml-1">Tarif & Fasilitas</span>
       </a>
-      <a href="#dokumentasi" class="mobile-nav-link flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
-        <i class="fa-solid fa-camera w-7 text-emerald-600"></i>Dokumentasi Wisata
+
+      <a href="#dokumentasi" class="sidebar-link flex items-center px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white transition-all group">
+        <i class="fa-solid fa-camera w-6 text-slate-400 group-hover:text-emerald-400 transition-colors"></i>
+        <span class="ml-1">Dokumentasi Foto</span>
       </a>
-      <a href="#buku-tamu" class="mobile-nav-link flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
-        <i class="fa-solid fa-book-open w-7 text-emerald-600"></i>Buku Tamu Pengunjung
+
+      <a href="#buku-tamu" class="sidebar-link flex items-center px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white transition-all group">
+        <i class="fa-solid fa-book-open w-6 text-slate-400 group-hover:text-emerald-400 transition-colors"></i>
+        <span class="ml-1">Buku Tamu</span>
       </a>
-      <div class="pt-3 border-t border-slate-100">
-        <a href="#tarif-fasilitas" class="flex items-center justify-center w-full px-4 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-emerald-600 to-teal-600 text-center shadow-md">
-          <i class="fa-solid fa-compass mr-2"></i> Cek Tiket & Panduan Wisata
-        </a>
+    </div>
+
+    <!-- Bagian Bawah Sidebar (Info Operasional & Proteksi Data) -->
+    <div class="p-4 border-t border-slate-800 bg-slate-950/70 space-y-3">
+      <!-- Quick Info Box -->
+      <div class="bg-white/5 p-3 rounded-xl border border-white/10 text-xs space-y-1.5">
+        <div class="flex items-center justify-between text-slate-300">
+          <span class="flex items-center"><i class="fa-regular fa-clock text-sky-400 mr-1.5"></i> Buka:</span>
+          <span class="font-bold text-white">07.00 - 15.00 WIB</span>
+        </div>
+        <div class="flex items-center justify-between text-slate-300">
+          <span class="flex items-center"><i class="fa-solid fa-ticket text-emerald-400 mr-1.5"></i> Tiket:</span>
+          <span class="font-bold text-emerald-400">Rp 10.000</span>
+        </div>
+      </div>
+
+      <!-- Protected Status Badge -->
+      <div class="flex items-center space-x-2 text-[11px] text-slate-400 bg-emerald-950/40 border border-emerald-500/20 px-3 py-2 rounded-xl">
+        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+        <span>Data Terkunci & Read-Only</span>
+      </div>
+
+      <!-- Action Button -->
+      <a href="#tarif-fasilitas" class="sidebar-link flex items-center justify-center w-full py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-md shadow-emerald-700/30 transition-all text-center">
+        <i class="fa-solid fa-compass mr-1.5"></i> Cek Tiket & Panduan
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- ==================== WRAPPER KONTEN UTAMA (KANAN SIDEBAR PADA LAPTOP) ==================== -->
+  <div class="lg:ml-72 min-h-screen flex flex-col w-full overflow-x-hidden">
+
+    <!-- ==================== HEADER KHUSUS HP / MOBILE ==================== -->
+    <header id="mobile-header" class="lg:hidden sticky top-0 z-30 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between text-white shadow-md">
+      <button id="sidebar-toggle-btn" type="button" class="p-2 rounded-xl text-slate-200 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 flex items-center space-x-2 border border-slate-700/70" aria-label="Buka Menu Kiri">
+        <i class="fa-solid fa-bars-staggered text-lg text-emerald-400"></i>
+        <span class="text-xs font-bold uppercase tracking-wider">Menu</span>
+      </button>
+
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xs shadow-sm">
+          <i class="fa-solid fa-water"></i>
+        </div>
+        <span class="font-bold text-sm tracking-tight text-white font-display">KAPAS BIRU</span>
+      </div>
+
+      <a href="#buku-tamu" class="px-3 py-1.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-sm transition-all flex items-center">
+        <i class="fa-solid fa-pen-nib mr-1 text-[11px]"></i> Buku Tamu
+      </a>
+    </header>
+
+    <!-- ==================== TOP ANNOUNCEMENT BAR ==================== -->
+    <div class="bg-gradient-to-r from-emerald-800 via-teal-800 to-sky-900 text-white text-xs md:text-sm py-2 px-4 font-medium shadow-sm relative z-20">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <div class="hidden md:flex items-center space-x-3">
+          <span><i class="fa-solid fa-location-dot text-emerald-400 mr-1.5"></i> Pronojiwo, Kabupaten Lumajang, Jawa Timur</span>
+          <span class="text-white/40">|</span>
+          <span><i class="fa-regular fa-clock text-sky-300 mr-1.5"></i> Jam Buka: 07.00 - 15.00 WIB</span>
+        </div>
+        <div class="mx-auto md:mx-0 flex items-center space-x-2">
+          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+            <i class="fa-solid fa-shield-halved mr-1 text-[11px]"></i> Halaman Resmi & Terproteksi
+          </span>
+          <span class="text-emerald-200 text-xs hidden sm:inline">• Projek Presentasi Bu Ratna</span>
+        </div>
+        <div class="hidden xl:flex items-center space-x-3 text-xs">
+          <span><i class="fa-solid fa-lock text-emerald-400 mr-1"></i> Data Read-Only</span>
+        </div>
       </div>
     </div>
-  </header>
 
   <!-- ==================== 1. HERO SECTION (BAGIAN AWAL) ==================== -->
   <section id="beranda" class="relative overflow-hidden pt-8 pb-16 lg:pt-16 lg:pb-24 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-white">
@@ -1286,6 +1327,9 @@
       </div>
     </div>
   </footer>
+
+  <!-- End of Main Content Wrapper (Kanan Sidebar) -->
+  </div>
 
   <!-- ==================== FLOATING BACK TO TOP BUTTON ==================== -->
   <button id="back-to-top" type="button" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-emerald-600 text-white shadow-xl flex items-center justify-center text-lg opacity-0 pointer-events-none transition-all duration-300 hover:bg-emerald-500 z-40 transform hover:scale-110" aria-label="Kembali ke atas">
