@@ -42,17 +42,43 @@ html {
   color: #ffffff;
 }
 
-/* Header Glassmorphism Effect */
-.header-scrolled {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+/* Sidebar Scrollbar */
+#left-sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+#left-sidebar::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+#left-sidebar::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+}
+#left-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #10b981;
 }
 
-/* Nav Link Active State */
-.nav-link.active {
-  color: #059669 !important;
-  background-color: #ecfdf5 !important;
-  font-weight: 700;
+/* Sidebar Nav Link Base & Active State */
+.sidebar-link {
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-link.active {
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.22) 0%, rgba(6, 95, 70, 0.15) 100%) !important;
+  color: #34d399 !important;
+  font-weight: 700 !important;
+  border-left: 4px solid #10b981 !important;
+  padding-left: calc(0.875rem - 4px) !important;
+  box-shadow: 0 4px 12px -2px rgba(16, 185, 129, 0.15);
+}
+
+.sidebar-link.active i {
+  color: #34d399 !important;
+  transform: scale(1.1);
 }
 
 /* Star Rating Transitions */
