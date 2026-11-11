@@ -1,0 +1,145 @@
+/* ========================================================
+   WISATA AIR TERJUN KAPAS BIRU - CUSTOM STYLES
+   Projek Presentasi Bu Ratna
+   ======================================================== */
+
+/* Root Variables */
+:root {
+  --primary-color: #059669;
+  --primary-dark: #064e3b;
+  --azure-color: #0284c7;
+  --dark-bg: #090d16;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 9999px;
+  border: 2px solid #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #059669;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* Selection Color */
+::selection {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+/* Header Glassmorphism Effect */
+.header-scrolled {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+}
+
+/* Nav Link Active State */
+.nav-link.active {
+  color: #059669 !important;
+  background-color: #ecfdf5 !important;
+  font-weight: 700;
+}
+
+/* Star Rating Transitions */
+.star-item {
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.star-item:hover {
+  transform: scale(1.25);
+}
+
+/* Video Wrapper & Aspect Ratio */
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+/* Slow Spin Animation for Status Badges */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+/* Lightbox Modal Animation */
+#photo-modal {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#photo-modal.active {
+  display: flex !important;
+  opacity: 1;
+}
+
+#photo-modal img {
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+#photo-modal.active img {
+  transform: scale(1);
+}
+
+/* Gallery Hover Vignette */
+.gallery-item img {
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Security Protection: Prevent accidental content editing */
+[contenteditable="true"] {
+  outline: none !important;
+}
+
+/* Print Stylesheet for Reports */
+@media print {
+  #main-header,
+  #video-sinematik,
+  #guestbook-form,
+  #back-to-top,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+}
