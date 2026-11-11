@@ -21,74 +21,97 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ========================================================
- * 1. NAVIGASI, MOBILE MENU, & SCROLLSPY
+ * 1. NAVIGASI MENU KIRI (SIDEBAR LAPTOP & HP) & SCROLLSPY
  * ======================================================== */
 function initNavigation() {
-  const header = document.getElementById('main-header');
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const menuIcon = document.getElementById('menu-icon');
+  const sidebar = document.getElementById('left-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  const toggleBtn = document.getElementById('sidebar-toggle-btn');
+  const closeBtn = document.getElementById('sidebar-close-btn');
+  const sidebarLinks = document.querySelectorAll('.sidebar-link');
   const backToTopBtn = document.getElementById('back-to-top');
-  const navLinks = document.querySelectorAll('.nav-link');
-  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
   const sections = document.querySelectorAll('section[id]');
 
-  // Toggle Mobile Menu
-  if (mobileMenuBtn && mobileMenu) {
-    mobileMenuBtn.addEventListener('click', () => {
-      const isExpanded = !mobileMenu.classList.contains('hidden');
-      if (isExpanded) {
-        mobileMenu.classList.add('hidden');
-        menuIcon.classList.replace('fa-xmark', 'fa-bars-staggered');
-      } else {
-        mobileMenu.classList.remove('hidden');
-        menuIcon.classList.replace('fa-bars-staggered', 'fa-xmark');
-      }
-    });
-
-    // Close mobile menu when clicking any mobile link
-    mobileNavLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-        menuIcon.classList.replace('fa-xmark', 'fa-bars-staggered');
-      });
-    });
+  // Fungsi Membuka Menu Kiri di Mobile
+  function openSidebar() {
+    if (sidebar && backdrop) {
+      sidebar.classList.remove('-translate-x-full');
+      backdrop.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden', 'lg:overflow-auto');
+    }
   }
 
-  // Scroll Event: Sticky shadow & Scrollspy
+  // Fungsi Menutup Menu Kiri di Mobile
+  function closeSidebar() {
+    if (sidebar && backdrop) {
+      sidebar.classList.add('-translate-x-full');
+      backdrop.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden', 'lg:overflow-auto');
+    }
+  }
+
+  // Tombol Toggle Buka Menu Kiri (Mobile Header)
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', openSidebar);
+  }
+
+  // Tombol Tutup X di dalam Sidebar (Mobile)
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeSidebar);
+  }
+
+  // Klik di Area Luar (Backdrop) untuk Menutup Sidebar
+  if (backdrop) {
+    backdrop.addEventListener('click', closeSidebar);
+  }
+
+  // Ketika salah satu menu kiri diklik: tutup sidebar di mobile & scroll halus
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth < 1024) {
+        closeSidebar();
+      }
+    });
+  });
+
+  // Tutup sidebar saat menekan tombol keyboard Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeSidebar();
+    }
+  });
+
+  // Scroll Event: Scrollspy Active State & Tombol Back-to-Top
   window.addEventListener('scroll', () => {
     const scrollY = window.pageYOffset;
 
-    // Header elevation
-    if (scrollY > 30) {
-      header.classList.add('header-scrolled');
-    } else {
-      header.classList.remove('header-scrolled');
-    }
-
     // Back to top button visibility
-    if (scrollY > 400) {
-      backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
-      backToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
-    } else {
-      backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
-      backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
+    if (backToTopBtn) {
+      if (scrollY > 400) {
+        backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+        backToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+        backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
+      }
     }
 
-    // ScrollSpy active link highlighting
+    // ScrollSpy active link highlighting pada Menu Kiri
     let currentSectionId = '';
     sections.forEach(section => {
-      const sectionTop = section.offsetTop - 120;
+      const sectionTop = section.offsetTop - 140;
       const sectionHeight = section.offsetHeight;
       if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
         currentSectionId = section.getAttribute('id');
       }
     });
 
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${currentSectionId}`) {
+    sidebarLinks.forEach(link => {
+      const targetHref = link.getAttribute('href');
+      if (targetHref === `#${currentSectionId}`) {
         link.classList.add('active');
+      } else {
+        link.classList.remove('active');
       }
     });
   });
