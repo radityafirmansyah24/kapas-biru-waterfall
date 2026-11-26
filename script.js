@@ -287,9 +287,22 @@ if (photoModalElement) {
  * 4. BUKU TAMU TERPROTEKSI (ANTI-XSS & LOCALSTORAGE)
  * ======================================================== */
 function initGuestbook() {
+  // Ambil seluruh elemen Buku Tamu dari HTML.
+  // Sebelumnya variabel-variabel ini dipakai tanpa deklarasi,
+  // sehingga renderEntries() memicu ReferenceError.
   const stars = document.querySelectorAll(".star-item");
+  const starContainer = document.getElementById("star-rating");
   const ratingText = document.getElementById("rating-text");
   const ratingInput = document.getElementById("guest-rating");
+
+  const form = document.getElementById("guestbook-form");
+  const nameInput = document.getElementById("guest-name");
+  const originInput = document.getElementById("guest-origin");
+  const genderInput = document.getElementById("gender");
+  const messageInput = document.getElementById("guest-message");
+  const formFeedback = document.getElementById("form-feedback");
+  const listContainer = document.getElementById("guestbook-list");
+  const badgeCount = document.getElementById("entry-count-badge");
 
   const ratingLabels = {
     1: "1 Bintang (Buruk)",
@@ -299,46 +312,60 @@ function initGuestbook() {
     5: "5 Bintang (Luar Biasa!)",
   };
 
-  let selectedRating = 0;
+  let selectedRating = Number(ratingInput?.value) || 0;
 
   function updateStars(rating) {
     stars.forEach((star) => {
       const value = Number(star.dataset.value);
+      const active = value <= rating;
 
-      if (value <= rating) {
-        star.classList.remove("text-slate-300");
-        star.classList.add("text-amber-400");
-      } else {
-        star.classList.remove("text-amber-400");
-        star.classList.add("text-slate-300");
-      }
+      star.classList.toggle("text-amber-400", active);
+      star.classList.toggle("text-slate-300", !active);
+      star.setAttribute("aria-pressed", String(value === selectedRating));
     });
   }
 
+  function selectRating(value) {
+    const rating = Math.min(5, Math.max(1, Number(value)));
+    if (!Number.isInteger(rating)) return;
+
+    selectedRating = rating;
+    if (ratingInput) ratingInput.value = String(rating);
+    if (ratingText) ratingText.textContent = ratingLabels[rating];
+    updateStars(rating);
+  }
+
+  // Bintang bisa dipilih dengan klik/tap, dan bisa diakses dengan keyboard.
   stars.forEach((star) => {
-    star.addEventListener("click", () => {
-      selectedRating = Number(star.dataset.value);
+    const value = Number(star.dataset.value);
+    star.setAttribute("role", "button");
+    star.setAttribute("tabindex", "0");
+    star.setAttribute("aria-label", `${value} bintang`);
+    star.setAttribute("aria-pressed", "false");
 
-      ratingInput.value = selectedRating;
-      ratingText.textContent = ratingLabels[selectedRating];
+    star.addEventListener("click", () => selectRating(value));
 
-      updateStars(selectedRating);
+    star.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        selectRating(value);
+      }
     });
 
-    star.addEventListener("mouseenter", () => {
-      updateStars(Number(star.dataset.value));
-    });
+    star.addEventListener("mouseenter", () => updateStars(value));
+    star.addEventListener("focus", () => updateStars(value));
   });
 
-  document.getElementById("star-rating").addEventListener("mouseleave", () => {
-    updateStars(selectedRating);
-  });
+  if (starContainer) {
+    starContainer.addEventListener("mouseleave", () => updateStars(selectedRating));
+    starContainer.addEventListener("focusout", () => updateStars(selectedRating));
+  }
 
-  // Default initial testimonials (authentic entries for demonstration)
   const defaultEntries = [
     {
       name: "Budi Santoso",
       origin: "Surabaya, Jawa Timur",
+      gender: "",
       rating: 5,
       date: "10 November 2024",
       message:
@@ -347,6 +374,7 @@ function initGuestbook() {
     {
       name: "Siti Rahmawati",
       origin: "Malang",
+      gender: "",
       rating: 5,
       date: "8 November 2024",
       message:
@@ -355,6 +383,7 @@ function initGuestbook() {
     {
       name: "David Wijaya",
       origin: "Jakarta Selatan",
+      gender: "",
       rating: 5,
       date: "5 November 2024",
       message:
@@ -363,6 +392,7 @@ function initGuestbook() {
     {
       name: "Rina Kusuma",
       origin: "Yogyakarta",
+      gender: "",
       rating: 5,
       date: "2 November 2024",
       message:
@@ -370,12 +400,12 @@ function initGuestbook() {
     },
   ];
 
-  // Load entries from localStorage or fallback to defaults
   let storedEntries = [];
   try {
     const rawData = localStorage.getItem("kapas_biru_guestbook_entries");
     if (rawData) {
-      storedEntries = JSON.parse(rawData);
+      const parsed = JSON.parse(rawData);
+      storedEntries = Array.isArray(parsed) ? parsed : defaultEntries;
     } else {
       storedEntries = defaultEntries;
       localStorage.setItem(
@@ -384,12 +414,13 @@ function initGuestbook() {
       );
     }
   } catch (err) {
+    console.warn("Tidak dapat membaca LocalStorage Buku Tamu:", err);
     storedEntries = defaultEntries;
   }
 
   function renderEntries() {
     if (!listContainer) return;
-    listContainer.innerHTML = "";
+    listContainer.replaceChildren();
 
     if (badgeCount) {
       badgeCount.textContent = `${storedEntries.length} Pesan Tercatat`;
@@ -400,12 +431,17 @@ function initGuestbook() {
       card.className =
         "bg-slate-50 hover:bg-white p-5 rounded-2xl border border-slate-200 transition-all shadow-sm";
 
-      // Sanitasi ketat untuk mencegah perubahan atau injeksi HTML oleh pengunjung
       const safeName = sanitizeHTML(entry.name);
       const safeOrigin = sanitizeHTML(entry.origin);
+      const safeGender = sanitizeHTML(entry.gender || "");
       const safeDate = sanitizeHTML(entry.date || "Baru saja");
       const safeMessage = sanitizeHTML(entry.message);
-      const ratingStars = generateStarIcons(entry.rating || 5);
+      const ratingValue = Math.min(5, Math.max(1, Number(entry.rating) || 5));
+      const ratingStars = generateStarIcons(ratingValue);
+
+      const genderInfo = safeGender
+        ? ` • <span class="ml-1">${safeGender}</span>`
+        : "";
 
       card.innerHTML = `
         <div class="flex items-start justify-between mb-2">
@@ -416,10 +452,10 @@ function initGuestbook() {
             </h4>
             <p class="text-[11px] text-slate-500 flex items-center mt-0.5">
               <i class="fa-solid fa-location-dot text-slate-400 mr-1"></i>
-              ${safeOrigin} • <span class="ml-1 text-slate-400">${safeDate}</span>
+              ${safeOrigin}${genderInfo} • <span class="ml-1 text-slate-400">${safeDate}</span>
             </p>
           </div>
-          <div class="flex text-amber-400 text-xs">
+          <div class="flex text-amber-400 text-xs" aria-label="${ratingValue} dari 5 bintang">
             ${ratingStars}
           </div>
         </div>
@@ -433,73 +469,72 @@ function initGuestbook() {
   }
 
   renderEntries();
+  updateStars(selectedRating);
 
-  // Handle Form Submission
   if (form) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
 
-      const name = nameInput.value.trim();
-      const origin = originInput.value.trim();
-      const rating = parseInt(ratingInput.value, 10) || 5;
-      const message = messageInput.value.trim();
+      const name = nameInput?.value.trim() || "";
+      const origin = originInput?.value.trim() || "";
+      const gender = genderInput?.value || "";
+      const rating = Number(ratingInput?.value);
+      const message = messageInput?.value.trim() || "";
 
-      if (!name || !origin || !message) {
-        showFeedback(
-          "Mohon lengkapi semua kolom yang bertanda bintang (*)",
-          false,
-        );
+      if (!name || !origin || !gender || !message) {
+        showFeedback("Mohon lengkapi semua kolom, termasuk jenis kelamin.", false);
         return;
       }
 
-      // Format current date in Indonesian
+      if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+        showFeedback("Silakan pilih rating bintang 1 sampai 5.", false);
+        return;
+      }
+
       const now = new Date();
-      const options = { day: "numeric", month: "long", year: "numeric" };
-      const formattedDate = now.toLocaleDateString("id-ID", options);
+      const formattedDate = now.toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
 
-      const newEntry = {
-        name: name,
-        origin: origin,
-        rating: rating,
+      storedEntries.unshift({
+        name,
+        origin,
+        gender,
+        rating,
         date: formattedDate,
-        message: message,
-      };
+        message,
+      });
 
-      // Add to front of array
-      storedEntries.unshift(newEntry);
-
-      // Persist to localStorage
       try {
         localStorage.setItem(
           "kapas_biru_guestbook_entries",
           JSON.stringify(storedEntries),
         );
       } catch (err) {
-        console.warn("LocalStorage quota or storage restriction:", err);
+        console.warn("LocalStorage tidak dapat menyimpan data:", err);
+        showFeedback("Pesan tampil, tetapi browser gagal menyimpannya secara lokal.", false);
       }
 
-      // Re-render
       renderEntries();
-
-      // Reset form
       form.reset();
-      ratingInput.value = "5";
-      if (ratingText) ratingText.textContent = "5 Bintang (Luar Biasa!)";
-      stars.forEach((s) => {
-        s.classList.replace("fa-regular", "fa-solid");
-        s.classList.add("text-amber-400");
-      });
+      selectedRating = 0;
+      if (ratingInput) ratingInput.value = "0";
+      if (ratingText) ratingText.textContent = "Pilih penilaian";
+      updateStars(0);
 
       showFeedback(
-        "Terima kasih! Pesan dan apresiasi Anda berhasil dicatat di Buku Tamu.",
+        "Terima kasih! Pesan dan penilaian Anda berhasil dicatat di Buku Tamu pada perangkat ini.",
         true,
       );
     });
   }
 
-  function showFeedback(text, isSuccess) {
+  function showFeedback(message, isSuccess) {
     if (!formFeedback) return;
-    formFeedback.textContent = text;
+
+    formFeedback.textContent = message;
     formFeedback.classList.remove(
       "hidden",
       "bg-red-100",
@@ -514,9 +549,7 @@ function initGuestbook() {
       formFeedback.classList.add("bg-red-100", "text-red-700");
     }
 
-    setTimeout(() => {
-      formFeedback.classList.add("hidden");
-    }, 4500);
+    window.setTimeout(() => formFeedback.classList.add("hidden"), 4500);
   }
 }
 
